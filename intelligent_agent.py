@@ -4,9 +4,9 @@ import matplotlib.pyplot as pyplot
 #from api import State, util
 import random
 
-
+playedCards = [1,12,9,6,2]
 #
-one = martix_gen.Generator(True, 19)
+one = martix_gen.Generator(True, 19,playedCards)
 one.populator()
 print(one.matrix)
 
