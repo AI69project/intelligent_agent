@@ -6,7 +6,8 @@ import random
 
 #test matrix
 playedCards = [1,12,9,6,2]
-one = martix_gen.Cost_Generator(True, 19,playedCards)
+playerHand = [3,5,15,16,7]
+one = martix_gen.Cost_Generator(True, 19,playedCards,playerHand)
 one.populator()
 print(one.matrix)
 

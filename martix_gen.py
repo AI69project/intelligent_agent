@@ -41,10 +41,11 @@ class Matrix:
 #use the generator with the index of the trump card
 #played cards should be array of integer
 class Cost_Generator:
-    def __init__(self,firstMove, trumpCard, playedCards):
+    def __init__(self,firstMove, trumpCard, playedCards,playerHand):
         self.firstMove = firstMove
         self.trumpCard = trumpCard
         self.playedCards = playedCards
+        self.playerHand = playerHand
 
         self.matrix = Matrix(CARD_AMOUNT).matrix #pre-populate matrix
 
@@ -64,7 +65,7 @@ class Cost_Generator:
         #format: [card_player_1, card_player_2]
         combinations = []
         for i in range(CARD_AMOUNT):
-            for j in range(CARD_AMOUNT ):
+            for j in self.playerHand:
                 combinations.append([i, j])
         #print(combinations)
 
