@@ -40,7 +40,7 @@ class Matrix:
 
 #use the generator with the index of the trump card
 #played cards should be array of integer
-class Generator:
+class Cost_Generator:
     def __init__(self,firstMove, trumpCard, playedCards):
         self.firstMove = firstMove
         self.trumpCard = trumpCard
