@@ -1,13 +1,16 @@
-import matr
-from api import State, util
+import martix_gen
+import matplotlib
+import matplotlib.pyplot as pyplot
+#from api import State, util
 import random
 
 
+#
+one = martix_gen.Generator(True, 19)
+one.populator()
+print(one.matrix)
 
-matrix = Generator(True, 11)
-print(matrix)
-
-pyplot.matshow(matrix, cmap=pyplot.cm.hot)
+pyplot.matshow(one.matrix, cmap=pyplot.cm.hot)
 pyplot.show()
 """
 class Bot:
