@@ -3,6 +3,15 @@ matplotlib.use('TkAgg')
 import numpy as np
 import matplotlib.pyplot as pyplot
 
+"""
+CLUB,DIAMOND,HEART,SPADE
+0,5,10,15 - Ace
+1,6,11,16 - 10
+2,7,12,17 - King
+3,8,13,18 - Queen
+4,9,14,19 - Jack
+"""
+
 
 CARD_AMOUNT = 20
 TRUMP_MULTIPLIER = 4
@@ -20,6 +29,7 @@ def value(index):
     else:
         return 3
 
+
 class Matrix:
     #class for matrix
     def __init__(self,size):
@@ -27,14 +37,6 @@ class Matrix:
         self.matrix = np.matrix(np.ones(shape=(self.size,self.size)))
         self.matrix *= -1
 
-"""
-CLUB,DIAMOND,HEART,SPADE
-0,5,10,15 - Ace
-1,6,11,16 - 10
-2,7,12,17 - King
-3,8,13,18 - Queen
-4,9,14,19 - Jack
-"""
 
 #use the generator with the index of the trump card
 #played cards should be array of integer
@@ -46,11 +48,15 @@ class Generator:
 
         self.matrix = Matrix(CARD_AMOUNT).matrix #pre-populate matrix
 
+
+    #checks if a card is present in an array
+    #input format : (array, card)
     def is_present(self,playedCards, focalCard):
         for card in playedCards:
             if card == focalCard:
                 return True
             else: False
+
 
     def populator(self):
 
@@ -85,8 +91,9 @@ class Generator:
                 #populate matrix with score
                 if pair[0] == pair[1]:
                     self.matrix[pair[0],pair[1]] = -1 #rule out illegal moves
+
                 elif self.is_present(self.playedCards,pair[0]) == True or self.is_present(self.playedCards,pair[1]) == True:
-                    self.matrix[pair[0], pair[1]] = -1
+                    self.matrix[pair[0], pair[1]] = -1 #blackout moves with unavaliable cards
                 else:
                     self.matrix[pair[0], pair[1]] = value_player/ value_opponent #evaluate moves (winning moves have higher scores)
 
