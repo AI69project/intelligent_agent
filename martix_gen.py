@@ -97,24 +97,3 @@ class Cost_Generator:
                     self.matrix[pair[0], pair[1]] = -1 #blackout moves with unavaliable cards
                 else:
                     self.matrix[pair[0], pair[1]] = value_player/ value_opponent #evaluate moves (winning moves have higher scores)
-
-
-        """
-        default = Matrix(20)
-        opn = Matrix(20)
-        for pair in combinations:
-            if pair[0] == pair[1]:
-                default.matrix[pair[0], pair[1]] = -1
-                opn.matrix[pair[0], pair[1]] = -1
-            else:
-                default.matrix[pair[0], pair[1]] = value(pair[0]) / value(pair[1])
-                opn.matrix[pair[0], pair[1]] = value(pair[0]) / value(pair[1])
-
-            if pair[0] % 5 == pair[1] % 5:
-                opn.matrix[pair[0], pair[1]] = 0
-            
-
-pyplot.matshow(default.matrix,cmap=pyplot.cm.hot)
-pyplot.matshow(opn.matrix,cmap=pyplot.cm.hot)
-pyplot.show()
-"""
