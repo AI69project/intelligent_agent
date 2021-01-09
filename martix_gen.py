@@ -5,6 +5,7 @@ import matplotlib.pyplot as pyplot
 
 
 CARD_AMOUNT = 20
+TRUMP_MULTIPLIER = 4
 
 #defining card value based on index
 def value(index):
@@ -35,12 +36,13 @@ CLUB,DIAMOND,HEART,SPADE
 4,9,14,19 - Jack
 """
 
+#use the generator with the index of the trump card
 class Generator:
     def __init__(self,firstMove, trumpCard):
         self.firstMove = firstMove
         self.trumpCard = trumpCard
 
-        self.matrix = None
+        self.matrix = Matrix(CARD_AMOUNT).matrix #pre-populate matrix
     def populator(self):
 
         #generate all card pairs
@@ -49,25 +51,33 @@ class Generator:
         for i in range(CARD_AMOUNT):
             for j in range(CARD_AMOUNT ):
                 combinations.append([i, j])
-        # print(combinations)
+        #print(combinations)
 
         if self.firstMove == True:
-            self.matrix = Matrix(CARD_AMOUNT)
             trump = int(self.trumpCard/5) #get the suite of the trump card
-            """
-            suite_player = int(pair[0]/5) #get suite of the players card
-            suite_opponent = int(pair[1]/5) #get suite of the opponent
-            """
 
+            #calcualte scores
+            #format cards
+            #populate the matrix
             for pair in combinations:
-                for element in pair:
-                    if int(element/5) == trump:
-                        element *=10
 
-                if pair[0]== pair[1]:
+                suite_player = int(pair[0] / 5)  # get suite of the players card
+                suite_opponent = int(pair[1] / 5)  # get suite of the opponent
+
+                value_player = value(pair[0])  # value of the players card
+                value_opponent = value(pair[1])  # value of the opponents card
+
+                # adjust card value if trump
+                if suite_player == trump:
+                    value_player *= TRUMP_MULTIPLIER
+                if suite_opponent == trump:
+                    value_opponent *= TRUMP_MULTIPLIER
+
+                #populate matrix with score
+                if pair[0] == pair[1]:
                     self.matrix[pair[0],pair[1]] = -1 #rule out illegal moves
                 else:
-                    self.matrix[pair[0], pair[1]] = value(pair[0]) / value(pair[1]) #evaluate moves (winning moves have higher scores)
+                    self.matrix[pair[0], pair[1]] = value_player/ value_opponent #evaluate moves (winning moves have higher scores)
 
 
         """
