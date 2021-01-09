@@ -37,12 +37,21 @@ CLUB,DIAMOND,HEART,SPADE
 """
 
 #use the generator with the index of the trump card
+#played cards should be array of integer
 class Generator:
-    def __init__(self,firstMove, trumpCard):
+    def __init__(self,firstMove, trumpCard, playedCards):
         self.firstMove = firstMove
         self.trumpCard = trumpCard
+        self.playedCards = playedCards
 
         self.matrix = Matrix(CARD_AMOUNT).matrix #pre-populate matrix
+
+    def is_present(self,playedCards, focalCard):
+        for card in playedCards:
+            if card == focalCard:
+                return True
+            else: False
+
     def populator(self):
 
         #generate all card pairs
@@ -76,6 +85,8 @@ class Generator:
                 #populate matrix with score
                 if pair[0] == pair[1]:
                     self.matrix[pair[0],pair[1]] = -1 #rule out illegal moves
+                elif self.is_present(self.playedCards,pair[0]) == True or self.is_present(self.playedCards,pair[1]) == True:
+                    self.matrix[pair[0], pair[1]] = -1
                 else:
                     self.matrix[pair[0], pair[1]] = value_player/ value_opponent #evaluate moves (winning moves have higher scores)
 
