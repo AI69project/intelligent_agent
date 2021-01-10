@@ -39,13 +39,9 @@ class Bot:
 
     def cards_left(self, card_list, playerHand, playedCards):
         comparison = np.concatenate((playerHand,playedCards))
-        new_list = []
-        print(comparison)
+        new_list = card_list
         for card in comparison:
-            for element in card_list:
-                if int(element) != int(card):
-                    new_list.append(element)
-        print(list(dict.fromkeys(new_list)))
+            new_list.remove(card)
         return new_list
 
     def select_move(self,playerHand, R_matrix , opponentPlayedCard):
