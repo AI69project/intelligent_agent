@@ -79,13 +79,10 @@ class Bot:
             if selected_move == move[0]:
                 chosen_move = move
 
-
         self.brain_update(opponentMove, chosen_move, self.gamma, R_matrix, available_cards)
 
         print("Trained Q matrix:")
         print(self.Q_matrix / np.max(self.Q_matrix) * 100)
-        print(chosen_move)
-
         return chosen_move
 
     def brain_update(self, played_card, move, gamma, reward_matrix, available_cards):
@@ -100,10 +97,10 @@ class Bot:
             optimal_play = int(np.random.choice(optimal_play, size=1))
         else: optimal_play = int(optimal_play)
 
-        max_reward = self.Q_matrix[move[0], optimal_play]
+        max_reward = self.Q_matrix[move[0],optimal_play]
 
 
-        self.Q_matrix[played_card, move[0]] = reward_matrix[played_card, move[0]] + gamma * max_reward
-        print("max reward", reward_matrix[played_card,move] + gamma * max_reward)
+        self.Q_matrix[move[0], played_card] = reward_matrix[move[0], played_card] + gamma * max_reward
+        #print("max reward", reward_matrix[move[0],played_card] + gamma * max_reward)
 
 
