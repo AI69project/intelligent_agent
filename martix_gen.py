@@ -96,10 +96,7 @@ class Cost_Generator:
             # populate matrix with score
             if pair[0] == pair[1]:
                 self.matrix[pair[0], pair[1]] = -1  # rule out illegal moves
-
-            elif self.is_present(self.playedCards, pair[0]) == True or self.is_present(self.playedCards,
-                                                                                       pair[1]) == True:
+            elif self.is_present(self.playedCards, pair[0]) == True or self.is_present(self.playedCards, pair[1]) == True:
                 self.matrix[pair[0], pair[1]] = -1  # blackout moves with unavaliable cards
             else:
-                self.matrix[pair[0], pair[
-                    1]] = value_player / value_opponent  # evaluate moves (winning moves have higher scores)
+                self.matrix[pair[0], pair[1]] = value_player / value_opponent  # evaluate moves (winning moves have higher scores)
