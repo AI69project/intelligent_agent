@@ -17,7 +17,7 @@ CARD_AMOUNT = 20
 TRUMP_MULTIPLIER = 4
 
 #defining card value based on index
-def value(index):
+def get_value(index):
     if index%5 == 0:
         return 11
     elif index%5 == 1:
@@ -28,6 +28,9 @@ def value(index):
         return 4
     else:
         return 3
+
+def get_suite(index):
+    return int(index/5)
 
 
 class Matrix:
@@ -69,19 +72,19 @@ class Cost_Generator:
                 combinations.append([i, j])
         #print(combinations)
 
-        if self.firstMove == True:
-            trump = int(self.trumpCard/5) #get the suite of the trump card
+        trump = int(self.trumpCard / 5)  # get the suite of the trump card
 
+        if self.firstMove == True:
             #calcualte scores
             #format cards
             #populate the matrix
             for pair in combinations:
 
-                suite_player = int(pair[0] / 5)  # get suite of the players card
-                suite_opponent = int(pair[1] / 5)  # get suite of the opponent
+                suite_player = get_suite(pair[0]) # get suite of the players card
+                suite_opponent = get_suite(pair[1])  # get suite of the opponent
 
-                value_player = value(pair[0])  # value of the players card
-                value_opponent = value(pair[1])  # value of the opponents card
+                value_player = get_value(pair[0])  # value of the players card
+                value_opponent = get_value(pair[1])  # value of the opponents card
 
                 # adjust card value if trump
                 if suite_player == trump:
