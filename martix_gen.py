@@ -25,28 +25,38 @@ def get_value(index):
     else: return 3
 
 def get_suite(index):
-    return int(index/5)
+    if index != None:
+        return int(index / 5)
+    else: return None
 
+def suite_to_index(suite):
+    if suite == "C":
+        return 0
+    elif suite == "D":
+        return 1
+    elif suite == "H":
+        return 2
+    else: return 3
 
 class Matrix:
     #class for matrix
-    def __init__(self,size):
+    def __init__(self,size,default_value):
         self.size = size
-        self.matrix = np.matrix(np.ones(shape=(self.size,self.size)))
-        self.matrix *= -1
+        self.matrix = np.matrix(np.zeros(shape=(self.size,self.size)))
+        self.matrix += default_value
 
 
 #use the generator with the index of the trump card
 #played cards should be array of integer
 class Cost_Generator:
-    def __init__(self,firstMove, trumpCard, playedCards,playerHand, opponentTrick):
-        self.firstMove = firstMove #if the player has the first move
-        self.trumpCard = trumpCard #the trump card
+    def __init__(self,whoseTurn, trumpSuite, playedCards,playerHand, opponentTrick):
+        self.whoseTurn = whoseTurn #if the player has the first move
+        self.trumpSuite = suite_to_index(trumpSuite) #the trump suite
         self.playedCards = playedCards #all previous played cards
         self.playerHand = playerHand #the current cards of the player
         self.opponentTrick = opponentTrick #if self.firstMove == False: the card played by opponent
 
-        self.matrix = Matrix(CARD_AMOUNT).matrix #pre-populated Q-matrix
+        self.matrix = Matrix(CARD_AMOUNT, -1).matrix #pre-populated Q-matrix with default value
 
 
 
@@ -60,43 +70,43 @@ class Cost_Generator:
 
 
     def populator(self):
-
-        trump = int(self.trumpCard / 5)  # get the suite of the trump card
         combinations = []
-
         # generate all card pairs
         # format: [card_player_1, card_player_2]
-        if self.firstMove == True:
+
+        #print(self.whoseTurn)
+        #print(self.opponentTrick)
+        if self.whoseTurn == 2 and self.opponentTrick != None:
+            for j in self.playerHand:
+                combinations.append([self.opponentTrick, j])
+        else:
             for i in range(CARD_AMOUNT):
                 for j in self.playerHand:
                     combinations.append([i, j])
-            # print(combinations)
-        else:
-            for j in self.playerHand:
-                combinations.append([self.opponentTrick, j])
+
 
 
         # calcualte scores
         # format cards
         # populate the matrix
         for pair in combinations:
+            suite_player = get_suite(pair[1])  # get suite of the players card
+            suite_opponent = get_suite(pair[0])  # get suite of the opponent
 
-            suite_player = get_suite(pair[0])  # get suite of the players card
-            suite_opponent = get_suite(pair[1])  # get suite of the opponent
-
-            value_player = get_value(pair[0])  # value of the players card
-            value_opponent = get_value(pair[1])  # value of the opponents card
+            value_player = get_value(pair[1])  # value of the players card
+            value_opponent = get_value(pair[0])  # value of the opponents card
 
             # adjust card value if trump
-            if suite_player == trump:
+            if suite_player == self.trumpSuite:
                 value_player *= TRUMP_MULTIPLIER
-            if suite_opponent == trump:
+            if suite_opponent == self.trumpSuite:
                 value_opponent *= TRUMP_MULTIPLIER
 
             # populate matrix with score
             if pair[0] == pair[1]:
                 self.matrix[pair[0], pair[1]] = -1  # rule out illegal moves
-            elif self.is_present(self.playedCards, pair[0]) == True or self.is_present(self.playedCards, pair[1]) == True:
-                self.matrix[pair[0], pair[1]] = -1  # blackout moves with unavaliable cards
+            elif self.is_present(self.playedCards, pair[1]) == True or self.is_present(self.playedCards, pair[0]) == True:
+                self.matrix[pair[1], pair[0]] = -1  # blackout moves with unavaliable cards
             else:
-                self.matrix[pair[0], pair[1]] = value_player / value_opponent  # evaluate moves (winning moves have higher scores)
+                self.matrix[pair[1], pair[0]] = value_player / value_opponent  # evaluate moves (winning moves have higher scores)
+        return self.matrix
