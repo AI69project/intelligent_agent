@@ -48,7 +48,7 @@ class Matrix:
 
 #use the generator with the index of the trump card
 #played cards should be array of integer
-class Cost_Generator:
+class Reward_Matrix:
     def __init__(self,whoseTurn, trumpSuite, playedCards,playerHand, opponentTrick):
         self.whoseTurn = whoseTurn #if the player has the first move
         self.trumpSuite = suite_to_index(trumpSuite) #the trump suite
@@ -69,17 +69,17 @@ class Cost_Generator:
             else: False
 
 
-    def populator(self):
+    def populate(self):
         combinations = []
         # generate all card pairs
         # format: [card_player_1, card_player_2]
 
         #print(self.whoseTurn)
         #print(self.opponentTrick)
-        if self.whoseTurn == 2 and self.opponentTrick != None:
+        if self.whoseTurn == 2 and self.opponentTrick != None: #if opponent has played card adapt to it
             for j in self.playerHand:
                 combinations.append([self.opponentTrick, j])
-        else:
+        else: #if opponent didnt play card search for best outcome
             for i in range(CARD_AMOUNT):
                 for j in self.playerHand:
                     combinations.append([i, j])
@@ -104,9 +104,9 @@ class Cost_Generator:
 
             # populate matrix with score
             if pair[0] == pair[1]:
-                self.matrix[pair[0], pair[1]] = -1  # rule out illegal moves
+                self.matrix[pair[1], pair[0]] = -1  # rule out illegal moves
             elif self.is_present(self.playedCards, pair[1]) == True or self.is_present(self.playedCards, pair[0]) == True:
                 self.matrix[pair[1], pair[0]] = -1  # blackout moves with unavaliable cards
             else:
-                self.matrix[pair[1], pair[0]] = value_player / value_opponent  # evaluate moves (winning moves have higher scores)
+                self.matrix[pair[1], pair[0]] = value_player / value_opponent   # evaluate moves (winning moves have higher scores)
         return self.matrix
