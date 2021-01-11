@@ -109,4 +109,17 @@ class Reward_Matrix:
                 self.matrix[pair[1], pair[0]] = -1  # blackout moves with unavaliable cards
             else:
                 self.matrix[pair[1], pair[0]] = value_player / value_opponent   # evaluate moves (winning moves have higher scores)
+
+
+        #nomralize all possible moves
+        sum = 0
+        for i in range(CARD_AMOUNT):
+            for j in range(i,CARD_AMOUNT):
+                if self.matrix[i,j] >= 0:
+                    sum += self.matrix[i,j]
+        for i in range(CARD_AMOUNT):
+            for j in range(i, CARD_AMOUNT):
+                if self.matrix[i, j] >= 0:
+                    self.matrix[i, j] /= sum
+
         return self.matrix

@@ -20,7 +20,7 @@ CARDS_IN_GAME = 20
 class Bot:
 
     def __init__(self):
-        self.gamma = 0.8
+        self.gamma = 0.7
         self.Q_matrix = martix_gen.Matrix(CARDS_IN_GAME, 0).matrix
 
         self.points = 0
@@ -101,7 +101,8 @@ class Bot:
             self.score.append(self.brain_update(opponentMove, chosen_move, self.gamma * 1, R_matrix, available_cards))
 
         print("Trained Q matrix:")
-        print(self.Q_matrix / np.max(self.Q_matrix) * 100)
+        #print(self.Q_matrix / self.Q_matrix *100)
+        print(self.Q_matrix / sum(self.Q_matrix))
 
         #self.file_append(score)
         return chosen_move
