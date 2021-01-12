@@ -24,13 +24,16 @@ class Bot:
         self.Q_matrix = martix_gen.Matrix(CARDS_IN_GAME, 0).matrix
 
         self.points = 0
-        self.score = []
+        #self.score = []
         pass
 
-    """ 
+
     def file_append(self,score):
+        #print(str(score), "l33")
         #write scores to file
-        if"""
+        with open("bots/intelligent_agent/scores.txt", "a+") as score_file:
+            score_file.write(str(score) + "\n")
+
 
     def get_hand(self, moves):
         playerHand = []
@@ -61,6 +64,8 @@ class Bot:
 
         if len(best_move_index) > 1: #if there are multiple moves with same score -> take random one
             best_move_index = random.choice(best_move_index)
+
+        print(best_move_index)
         move = playerHand[int(best_move_index)]
 
         return move
@@ -95,16 +100,18 @@ class Bot:
 
         if self.points == new_points and state.get_points(1) != 0: #if previous trick was loosing, make negativ reward
             self.points += new_points
-            self.score.append(self.brain_update(opponentMove, chosen_move, self.gamma * -1, R_matrix, available_cards))
+            #self.score.append(self.brain_update(opponentMove, chosen_move, self.gamma * -1, R_matrix, available_cards))
+            self.score = self.brain_update(opponentMove, chosen_move, self.gamma * -1, R_matrix, available_cards)
         else: #else postive reward
             self.points += new_points
-            self.score.append(self.brain_update(opponentMove, chosen_move, self.gamma * 1, R_matrix, available_cards))
+            #self.score.append(self.brain_update(opponentMove, chosen_move, self.gamma * 1, R_matrix, available_cards))
+            self.score = self.brain_update(opponentMove, chosen_move, self.gamma, R_matrix, available_cards)
 
         print("Trained Q matrix:")
         #print(self.Q_matrix / self.Q_matrix *100)
         print(self.Q_matrix / sum(self.Q_matrix))
 
-        #self.file_append(score)
+        self.file_append(self.score)
         return chosen_move
 
     def brain_update(self, opponentMove, move, gamma, reward_matrix, available_cards):

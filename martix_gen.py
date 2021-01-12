@@ -107,8 +107,14 @@ class Reward_Matrix:
                 self.matrix[pair[1], pair[0]] = -1  # rule out illegal moves
             elif self.is_present(self.playedCards, pair[1]) == True or self.is_present(self.playedCards, pair[0]) == True:
                 self.matrix[pair[1], pair[0]] = -1  # blackout moves with unavaliable cards
+
             else:
-                self.matrix[pair[1], pair[0]] = value_player / value_opponent   # evaluate moves (winning moves have higher scores)
+                self.matrix[pair[1], pair[0]] = value_player / value_opponent
+                """
+                if value_player > value_opponent:
+                    self.matrix[pair[1], pair[0]] = value_player / value_opponent   # evaluate moves (winning moves have higher scores)
+                else:
+                    self.matrix[pair[1], pair[0]] = 0"""
 
 
         #nomralize all possible moves
