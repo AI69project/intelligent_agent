@@ -84,8 +84,6 @@ class Reward_Matrix:
                 for j in self.playerHand:
                     combinations.append([i, j])
 
-
-
         # calcualte scores
         # format cards
         # populate the matrix
@@ -120,7 +118,7 @@ class Reward_Matrix:
         #nomralize all possible moves
         sum = 0
         for i in range(CARD_AMOUNT):
-            for j in range(i,CARD_AMOUNT):
+            for j in range(i,CARD_AMOUNT):#i
                 if self.matrix[i,j] >= 0:
                     sum += self.matrix[i,j]
         for i in range(CARD_AMOUNT):

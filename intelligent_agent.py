@@ -1,5 +1,5 @@
-from . import martix_gen
-import pylab
+import martix_gen
+import pylab as pyplot
 from pathlib import Path
 import numpy as np
 import random
@@ -9,19 +9,19 @@ import random
 playedCards = [1,12,9,6,2]
 playerHand = [3,5,15,16,7]
 opponentTrick = 13
-one = martix_gen.Cost_Generator(True, "C" ,playedCards,playerHand,opponentTrick)
-one.populator()
-print(one.matrix)
+one = martix_gen.Reward_Matrix(True, "C" ,playedCards,playerHand,opponentTrick).populate()
+print(one)
 
-pyplot.matshow(one.matrix, cmap=pyplot.cm.hot)
+pyplot.matshow(one, cmap=pyplot.cm.hot)
 pyplot.show()
 """
+
 CARDS_IN_GAME = 20
 class Bot:
 
     def __init__(self):
         self.gamma = 0.7
-        self.Q_matrix = martix_gen.Matrix(CARDS_IN_GAME, 0).matrix
+        self.Q_matrix = martix_gen.Matrix(CARDS_IN_GAME, 0).matrix #problem??
 
         self.points = 0
         #self.score = []
@@ -35,6 +35,7 @@ class Bot:
             score_file.write(str(score) + "\n")
 
 
+    #changes move tuple to only the card index
     def get_hand(self, moves):
         playerHand = []
         for move in moves:
@@ -65,7 +66,7 @@ class Bot:
         if len(best_move_index) > 1: #if there are multiple moves with same score -> take random one
             best_move_index = random.choice(best_move_index)
 
-        print(best_move_index)
+        #print(best_move_index)
         move = playerHand[int(best_move_index)]
 
         return move
@@ -98,6 +99,7 @@ class Bot:
             if selected_move == move[0]:
                 chosen_move = move
 
+        #reward falsely
         if self.points == new_points and state.get_points(1) != 0: #if previous trick was loosing, make negativ reward
             self.points += new_points
             #self.score.append(self.brain_update(opponentMove, chosen_move, self.gamma * -1, R_matrix, available_cards))
@@ -107,9 +109,10 @@ class Bot:
             #self.score.append(self.brain_update(opponentMove, chosen_move, self.gamma * 1, R_matrix, available_cards))
             self.score = self.brain_update(opponentMove, chosen_move, self.gamma, R_matrix, available_cards)
 
+        """ 
         print("Trained Q matrix:")
         #print(self.Q_matrix / self.Q_matrix *100)
-        print(self.Q_matrix / sum(self.Q_matrix))
+        print(self.Q_matrix / np.sum(self.Q_matrix))"""
 
         self.file_append(self.score)
         return chosen_move
