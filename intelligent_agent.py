@@ -111,9 +111,9 @@ class Bot:
             optimal_play = shorten_array(np.where(self.Q_matrix[:,opponentMove] == np.max(self.Q_matrix[:,opponentMove]))[0])
             max_reward = self.Q_matrix[optimal_play, opponentMove]
             self.Q_matrix[opponentMove, optimal_play] = reward_matrix[opponentMove, optimal_play] + gamma * max_reward
-        """
-        max_val = np.max(self.Q_matrix)
-        self.Q_matrix /= (max_val*100)"""
+
+
+        self.Q_matrix = np.divide(self.Q_matrix,np.max(self.Q_matrix))
 
         return (np.sum(self.Q_matrix / np.max(self.Q_matrix)))
 
