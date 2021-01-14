@@ -115,6 +115,6 @@ class Bot:
 
         self.Q_matrix = np.divide(self.Q_matrix,np.max(self.Q_matrix))
 
-        return (np.sum(self.Q_matrix / np.max(self.Q_matrix)))
+        return (np.sum(self.Q_matrix))
 
 
