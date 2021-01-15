@@ -12,7 +12,8 @@ one = martix_gen.Reward_Matrix(True, "C" ,playedCards,playerHand,opponentTrick).
 print(one)
 
 pyplot.matshow(one, cmap=pyplot.cm.hot)
-pyplot.show()"""
+pyplot.show()
+"""
 
 
 CARDS_IN_GAME = 20
