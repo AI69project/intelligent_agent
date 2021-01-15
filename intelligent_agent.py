@@ -94,6 +94,7 @@ class Bot:
 
     def brain_update(self, opponentMove, move, gamma, reward_matrix, available_cards):
         def shorten_array(optimal_play):
+            print(optimal_play)
             if optimal_play.shape[0] > 1:
                 # optimal_play = int(np.random.choice(optimal_play, size=1))
                 card_val_array = [card % 5 for card in optimal_play]
@@ -113,7 +114,7 @@ class Bot:
             self.Q_matrix[opponentMove, optimal_play] = reward_matrix[opponentMove, optimal_play] + gamma * max_reward
 
 
-        self.Q_matrix = np.divide(self.Q_matrix,np.max(self.Q_matrix))
+        #cself.Q_matrix = np.divide(self.Q_matrix,np.max(self.Q_matrix))
 
         return (np.sum(self.Q_matrix))
 
