@@ -107,12 +107,13 @@ class Bot:
         if opponentMove == None:#if opponent didnt play select random card as opponentMove
             opponentMove = np.random.choice(available_cards)#assumes oppontent plays random card
             optimal_play = shorten_array(np.where(self.Q_matrix[move[0],] == np.max(self.Q_matrix[move[0],]))[1])
+            max_reward = self.Q_matrix[optimal_play, np.max(self.Q_matrix[,:available_cards]]
             max_reward = self.Q_matrix[move[0], optimal_play]
-            self.Q_matrix[move[0], opponentMove] = reward_matrix[move[0], opponentMove] + gamma * max_reward
         else: #if opponent already played a card
             optimal_play = shorten_array(np.where(self.Q_matrix[:,opponentMove] == np.max(self.Q_matrix[:,opponentMove]))[0])
             max_reward = self.Q_matrix[optimal_play, opponentMove]
-            self.Q_matrix[opponentMove, optimal_play] = reward_matrix[opponentMove, optimal_play] + gamma * max_reward
+            
+        self.Q_matrix[move[0], opponentMove] = reward_matrix[move[0], opponentMove] + gamma * max_reward
 
 
         #cself.Q_matrix = np.divide(self.Q_matrix,np.max(self.Q_matrix))
