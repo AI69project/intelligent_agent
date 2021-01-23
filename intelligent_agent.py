@@ -1,20 +1,6 @@
 from . import matrix_gen
-import pylab as pyplot
 import numpy as np
 import random
-
-"""
-#test matrix
-playedCards = [1,12,9,6,2]
-playerHand = [3,5,15,16,7]
-opponentTrick = 13
-one = martix_gen.Reward_Matrix(True, "C" ,playedCards,playerHand,opponentTrick).populate()
-print(one)
-
-pyplot.matshow(one, cmap=pyplot.cm.hot)
-pyplot.show()
-"""
-
 
 CARDS_IN_GAME = 20
 class Bot:
@@ -99,7 +85,7 @@ class Bot:
             if optimal_play.shape[0] > 1:
                 # optimal_play = int(np.random.choice(optimal_play, size=1))
                 card_val_array = [card % 5 for card in optimal_play]
-                i = np.where(card_val_array == np.min(card_val_array))
+                i = np.where(card_val_array == np.max(card_val_array))
                 optimal_play = np.random.choice(optimal_play[i], 1)
             else: optimal_play = int(optimal_play)
             return optimal_play
@@ -107,16 +93,11 @@ class Bot:
         if opponentMove == None:#if opponent didnt play select random card as opponentMove
             opponentMove = np.random.choice(available_cards)#assumes oppontent plays random card
             optimal_play = shorten_array(np.where(self.Q_matrix[move[0],] == np.max(self.Q_matrix[move[0],]))[1])
-            max_reward = self.Q_matrix[optimal_play, np.max(self.Q_matrix[,:available_cards]]
-            max_reward = self.Q_matrix[move[0], optimal_play]
         else: #if opponent already played a card
             optimal_play = shorten_array(np.where(self.Q_matrix[:,opponentMove] == np.max(self.Q_matrix[:,opponentMove]))[0])
-            max_reward = self.Q_matrix[optimal_play, opponentMove]
-            
+
+        max_reward = self.Q_matrix[optimal_play, opponentMove]
         self.Q_matrix[move[0], opponentMove] = reward_matrix[move[0], opponentMove] + gamma * max_reward
-
-
-        #cself.Q_matrix = np.divide(self.Q_matrix,np.max(self.Q_matrix))
 
         return (np.sum(self.Q_matrix))
 
